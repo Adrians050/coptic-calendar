@@ -32,3 +32,10 @@ This library exists to give Python developers a single self-contained module for
 ## The awkward edge
 
 The most common pitfall is the intercalary month **Nasi** (month 13): it has **5 days in a common year and 6 in a leap year**. Day 6 of Nasi only exists in leap years, and this library rejects it with `ValueError` otherwise. If your input date falls after August 29 of a Gregorian year, double-check which Coptic year it lands in — the Coptic New Year (Tout 1) shifts relative to September because the Coptic year is ~6 minutes shorter than the Gregorian tropical year.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
